@@ -10,6 +10,6 @@ public class LearningManagementSystemApplication {
 		SpringApplication.run(LearningManagementSystemApplication.class, args);
 	}
 
-} // i just added the comment
+} // I just added the comment
 
 // add the following code to the main method in the LearningManagementSystemApplication class
