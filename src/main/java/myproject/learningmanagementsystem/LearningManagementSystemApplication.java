@@ -11,3 +11,5 @@ public class LearningManagementSystemApplication {
 	}
 
 } // i just added the comment
+
+// add the following code to the main method in the LearningManagementSystemApplication class
