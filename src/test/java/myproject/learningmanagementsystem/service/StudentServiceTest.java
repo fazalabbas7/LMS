@@ -124,7 +124,6 @@ class StudentServiceTest {
         when(studentRepository.existsById(studentId)).thenReturn(false);
         boolean isDeleted = studentService.deleteStudent(studentId);
         assertFalse(isDeleted);
-        verify(studentRepository, never()).deleteById(studentId);
+        verify(studentRepository, never()).deleteById(studentId); // should not fail because student does not exist anymore in the repository anymore
     }
 }
-
