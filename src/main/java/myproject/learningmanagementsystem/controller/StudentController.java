@@ -28,10 +28,20 @@ public class StudentController {
         return studentService.createStudent(student);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable("id") int id, @RequestBody Student student) {
-        Student updatedStudent = studentService.updateStudent(id, student);
-        return updatedStudent != null ? ResponseEntity.ok(updatedStudent) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<?> updateStudent(@PathVariable("id") int id, @RequestBody Student student) {
+        try {
+            Student updatedStudent = studentService.updateStudent(id, student);
+            return updatedStudent != null
+                    ? ResponseEntity.ok(updatedStudent)
+                    : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Student with the given ID " + id + " was not found"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "An unexpected error occurred: " + e.getMessage()));
+        }
     }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Student> patchStudent(@PathVariable("id") int id, @RequestBody Map<String, Object> updates) {
         Student patchedStudent = studentService.updateStudentPartially(id, updates);

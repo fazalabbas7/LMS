@@ -62,7 +62,7 @@ class StudentControllerTest {
         int studentId = 1;
         Student student = new Student();
         when(studentService.updateStudent(eq(studentId), any(Student.class))).thenReturn(student);
-        ResponseEntity<Student> response = studentController.updateStudent(studentId, student);
+        ResponseEntity<Student> response = (ResponseEntity<Student>) studentController.updateStudent(studentId, student);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(student, response.getBody());
     }
@@ -71,7 +71,7 @@ class StudentControllerTest {
         int studentId = 1;
         Student student = new Student();
         when(studentService.updateStudent(eq(studentId), any(Student.class))).thenReturn(null);
-        ResponseEntity<Student> response = studentController.updateStudent(studentId, student);
+        ResponseEntity<Student> response = (ResponseEntity<Student>) studentController.updateStudent(studentId, student);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
     @Test

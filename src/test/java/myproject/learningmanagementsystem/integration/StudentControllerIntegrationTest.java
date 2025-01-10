@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class StudentControllerIntegrationTest {
     @Autowired
+
     private WebApplicationContext webApplicationContext;
     @Autowired
     private StudentRepository studentRepository;
@@ -84,6 +87,29 @@ public class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.firstName").value("Hassan Updated"))
                 .andExpect(jsonPath("$.lastName").value("Murtaza Updated"));
     }
+
+    @Test
+    void testUpdateStudent_error() throws Exception {
+        String updatedStudentJson = """
+            {
+                "firstName": "Hassan Updated",
+                "lastName": "Murtaza Updated",
+                "email": "hassan.murtaza@gmail.com",
+                "dateOfBirth": "1998-07-11",
+                "enrollmentDate": "2024-01-10"
+            }
+            """;
+
+        mockMvc.perform(put("/api/students/99999") // Use an ID unlikely to exist
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedStudentJson))
+                .andExpect(status().is5xxServerError()) // Expect 500 for missing student
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Student not found with id: 99999"));
+    }
+
+
+
+
 
     @Test
     void testDeleteStudent() throws Exception {

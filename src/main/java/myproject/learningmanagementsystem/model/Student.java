@@ -110,9 +110,9 @@ public class Student {
 
     }
 
-    public void setFullName(String johnDoe) {
-        this.firstName = johnDoe;
-        this.lastName = "Doe";
+    public void setFullName(String hassanAli) {
+        this.firstName = hassanAli;
+        this.lastName = "Ali";
     }
 }
 
